@@ -1,0 +1,24 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+* {
+    margin: 1%;
+ }
+
+div {
+    width: 100%;
+}
+
+img {
+    width: 20vh;
+    display: inline-block;
+}
+
+h1 {
+    display: inline-block;
+    text-align: center;
+}
+
+button {
+    width: 40%;
+    margin: 0 auto;
+}

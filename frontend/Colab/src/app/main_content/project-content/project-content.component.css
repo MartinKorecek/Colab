@@ -1,0 +1,6 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+#main_div {
+    border-bottom-style: solid;
+    border-bottom-color: #2f3e00;
+}

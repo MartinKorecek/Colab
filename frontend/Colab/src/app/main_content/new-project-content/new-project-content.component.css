@@ -1,0 +1,10 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+input, textarea {
+    width: 100%;
+}
+
+#description {
+    max-width: 100%;
+    min-width: 100%;
+}

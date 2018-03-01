@@ -1,0 +1,54 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+#wrap_div {
+	top: 0;
+	position: sticky;
+	width: 100%;
+	background: #597700;
+}
+
+#bar {
+	width: 70%;
+	height: 40px;
+	margin: 0 auto;
+}
+
+#bar::after { 
+   content: " ";
+   display: block;
+   clear: both;
+}
+
+img:hover, #plus:hover {
+	filter: 0;
+	-webkit-filter: brightness(120%);
+}
+
+#logo, #foto {
+	padding-top: 8px;
+	padding-bottom: 7px;
+	height: 100%;
+}
+
+#plus {
+	color: #b3b3b3;
+	float: left;
+	padding-top: 13px;
+	height: 100%;
+}
+
+#left_side, #right_side {
+	height: 100%;
+}
+
+#left_side {
+	float: left;
+}
+
+#right_side {
+	float: right;
+}
+
+#foto {
+	padding-left: 25px;
+}

@@ -1,0 +1,9 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+button {
+    width: 100%;
+}
+
+p {
+    height: 7px;
+}

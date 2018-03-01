@@ -1,0 +1,19 @@
+<h1>Start a new Project</h1>
+
+<p></p>
+
+<form name="newProjectForm" (ngSubmit)="newProjectF?.form?.valid && submitProject()" #newProjectF="ngForm" >
+  <div class="form-group">
+    <h4 for="caption">Caption:</h4>
+    <input type="text" class="form-control" name="newProjectCaption" [(ngModel)]="model.newProjectCaption" #newProjectCaption="ngModel" required>
+  </div>
+  <div class="form-group">
+    <h4 for="description">Description:</h4>
+    <textarea class="form-control" rows="10" name="newProjectDescription" [(ngModel)]="model.newProjectDescription" #newProjectDescription="ngModel" required></textarea>
+  </div>
+  <p></p>
+  <div class="form-group">
+    <button>Post as '{{ username }}'</button>
+  </div>
+  <div *ngIf="projectPersistenceError" class="alert alert-danger">An <strong>error</strong> occured while posting your project.</div>
+</form>

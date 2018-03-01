@@ -1,0 +1,19 @@
+/* global styles */
+body {
+    margin: 0;
+  }
+
+html *
+{
+   font-family: Courier New;
+   font-family: Sinkin Sans Regular;
+}
+  
+  ::selection {
+    background: #739900; /* WebKit/Blink Browsers */
+    color: #f2f2f2;
+  }
+  ::-moz-selection {
+    background: #739900; /* Gecko Browsers */
+    color: #f2f2f2;
+  }
