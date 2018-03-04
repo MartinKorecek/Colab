@@ -31,6 +31,10 @@ public class Project {
 	
 	private Set<ProjectComment> projectComments;
 	
+	private Set<ProjectDescriptionChapter> projectDescriptionChapters;
+
+	private Set<ProjectResource> projectResources;
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -83,11 +87,29 @@ public class Project {
 		this.projectComments = projectComments;
 	}
 	
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	public Set<ProjectDescriptionChapter> getProjectDescriptionChapters() {
+		return projectDescriptionChapters;
+	}
+	public void setProjectDescriptionChapters(Set<ProjectDescriptionChapter> projectDescriptionChapters) {
+		this.projectDescriptionChapters = projectDescriptionChapters;
+	}
+	
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	public Set<ProjectResource> getProjectResources() {
+		return projectResources;
+	}
+	public void setProjectResources(Set<ProjectResource> projectResources) {
+		this.projectResources = projectResources;
+	}
+	
 	
 	@Override
 	public String toString() {
 		return "Project [id=" + id + ", author=" + author + ", caption=" + caption + ", description=" + description
-				+ ", creationDate=" + creationDate + ", projectComments=" + projectComments + "]";
+				+ ", creationDate=" + creationDate + ", projectComments=" + projectComments
+				+ ", projectDescriptionChapters=" + projectDescriptionChapters + ", projectResources="
+				+ projectResources + "]";
 	}
 
 }

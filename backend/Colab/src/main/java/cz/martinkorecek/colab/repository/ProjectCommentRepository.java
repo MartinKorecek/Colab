@@ -15,9 +15,17 @@ public interface ProjectCommentRepository extends CrudRepository<ProjectComment,
 										+ "(author_id, text, project_id) "
 										+ "SELECT id, :text, :projectId FROM user "
 										+ "WHERE username=:authorUsername";
+	public static final String INSERT_SUBCOMMENT_QUERY = "INSERT INTO project_comment "
+			+ "(author_id, text, project_id, parent_comment_id) "
+			+ "SELECT id, :text, :projectId, :parentId FROM user "
+			+ "WHERE username=:authorUsername";
 	
 	@Modifying
 	@Query(value = INSERT_COMMENT_QUERY, nativeQuery = true)
 	public void insertComment(@Param("authorUsername") String authorUsername, @Param("text") String text, @Param("projectId") Long projectId);
+	
+	@Modifying
+	@Query(value = INSERT_SUBCOMMENT_QUERY, nativeQuery = true)
+	public void insertSubcomment(@Param("authorUsername") String authorUsername, @Param("text") String text, @Param("projectId") Long projectId, @Param("parentId") Long parentCommentId);
 	
 }

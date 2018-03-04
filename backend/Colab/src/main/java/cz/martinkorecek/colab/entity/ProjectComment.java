@@ -1,40 +1,46 @@
 package cz.martinkorecek.colab.entity;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="project_comment")
 public class ProjectComment {
 
-	private long id;
+	private Long id;
 	
 	private String text;
-	
-	private long parentCommentId;
 	
 	private Date date;
 	
 	private User author;
 	
 	private Project project;
+	
+	private ProjectComment parentComment;
+	
+	private Set<ProjectComment> subcomments;
 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -44,14 +50,6 @@ public class ProjectComment {
 	}
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	@Column(name="parent_comment_id")
-	public long getParentCommentId() {
-		return parentCommentId;
-	}
-	public void setParentCommentId(long parentCommentId) {
-		this.parentCommentId = parentCommentId;
 	}
 
 	@Column(name="date")
@@ -80,11 +78,28 @@ public class ProjectComment {
 		this.project = project;
 	}
 	
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name = "parent_comment_id", referencedColumnName="id", insertable = false, updatable = false)
+	public ProjectComment getParentComment() {
+		return parentComment;
+	}
+	public void setParentComment(ProjectComment parentComment) {
+		this.parentComment = parentComment;
+	}
+	
+	@OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public Set<ProjectComment> getSubcomments() {
+		return subcomments;
+	}
+	public void setSubcomments(Set<ProjectComment> subcomments) {
+		this.subcomments = subcomments;
+	}
+	
 	
 	@Override
 	public String toString() {
-		return "ProjectComment [id=" + id + ", text=" + text + ", parentCommentId=" + parentCommentId + ", date=" + date
-				+ ", author=" + author + ", project=" + project + "]";
+		return "ProjectComment [id=" + id + ", text=" + text + ", date=" + date + ", author=" + author + ", project="
+				+ project + ", parentComment=" + parentComment + ", subcomments=" + subcomments + "]";
 	}
 	
 }

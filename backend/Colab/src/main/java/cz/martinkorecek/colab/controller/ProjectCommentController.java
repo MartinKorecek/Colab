@@ -30,8 +30,11 @@ public class ProjectCommentController {
 	@RequestMapping(value = "/persistComment", method = RequestMethod.POST)
 	public ResponseEntity<String> add(@RequestBody ProjectComment projectComment) {
 		if (projectCommentService.isValid(projectComment)) {
-			projectCommentRepository.insertComment(projectComment.getAuthor().getUsername(), projectComment.getText(),
-					projectComment.getProject().getId());
+			if (projectComment.getParentComment() == null || projectComment.getParentComment().getId() == null) {
+				projectCommentRepository.insertComment(projectComment.getAuthor().getUsername(), projectComment.getText(), projectComment.getProject().getId());
+			} else {
+				projectCommentRepository.insertSubcomment(projectComment.getAuthor().getUsername(), projectComment.getText(), projectComment.getProject().getId(), projectComment.getParentComment().getId());
+			}
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
