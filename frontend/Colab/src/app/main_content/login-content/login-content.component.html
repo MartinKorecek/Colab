@@ -24,12 +24,12 @@
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" class="form-control" name="signupUsername" [(ngModel)]="model.signupUsername" #signupUsername="ngModel"
-      required placeholder="Username">
+      required placeholder="Username" maxlength="40">
   </div>
   <div class="form-group">
     <label for="password">Password:</label>
     <input type="password" class="form-control" name="signupPassword" [(ngModel)]="model.signupPassword" #signupPassword="ngModel"
-      required placeholder="Password">
+      required placeholder="Password" maxlength="40">
   </div>
   <!--
   <div class="form-group">

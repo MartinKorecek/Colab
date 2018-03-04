@@ -6,7 +6,7 @@
   <div id="main_div">
     <div class="form-group">
       <h4 for="caption">Caption:</h4>
-      <input type="text" class="form-control" name="newProjectCaption" [(ngModel)]="model.newProjectCaption" #newProjectCaption="ngModel" required>
+      <input type="text" class="form-control" name="newProjectCaption" [(ngModel)]="model.newProjectCaption" #newProjectCaption="ngModel" maxlength="100" required>
     </div>
     <div class="form-group">
       <h4 for="description">Annotation:</h4>
@@ -21,7 +21,7 @@
       <h4 id="chapterHeader">Description chapter {{ in + 1 }}: </h4>
       <div class="form-group">
         <h5 for="chapterTitle">Title: </h5>
-        <input type="text" [(ngModel)]="chapters[in].title" name="chapterTitle{{in}}" class="form-control" #chapterTitle="ngModel" required />
+        <input type="text" [(ngModel)]="chapters[in].title" name="chapterTitle{{in}}" class="form-control" #chapterTitle="ngModel" maxlength="45" required />
       </div>
       <div class="form-group">
         <h5 for="chapterText">Text: </h5>
@@ -38,7 +38,7 @@
       <h4 id="resourceHeader">Resource {{ in + 1 }}: </h4>
       <div class="form-group">
           <h5 for="resourceLink">Link: </h5>
-          <input type="text" [(ngModel)]="resources[in].link" name="resourceLink{{in}}" class="form-control" #resourceLink="ngModel" required />
+          <input type="text" [(ngModel)]="resources[in].link" name="resourceLink{{in}}" class="form-control" #resourceLink="ngModel" maxlength="2000" required />
         </div>
     </div>
     <button (click)="addResource()" [disabled]="!newProjectF?.form?.valid" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Add resource link</button>

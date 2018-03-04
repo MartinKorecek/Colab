@@ -47,7 +47,7 @@ ALTER TABLE project_description_chapter ADD CONSTRAINT FK_PROJECT_DESCRIPTION_CH
 CREATE TABLE IF NOT EXISTS project_resource (
 	id           INT NOT NULL AUTO_INCREMENT,
     project_id   INT NOT NULL,
-    link         VARCHAR(300),
+    link         VARCHAR(2000) NOT NULL,
     PRIMARY KEY (id)
 );
 
