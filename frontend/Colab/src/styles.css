@@ -1,19 +1,35 @@
 /* global styles */
+@font-face
+{
+  font-family: 'Glametrix';
+  src:url('./assets/fonts/Glametrix.otf') format('truetype');
+  font-weight: normal;
+}
+@font-face
+{
+  font-family: 'Glametrix';
+  src:url('./assets/fonts/GlametrixBold.otf') format('truetype');
+  font-weight: bold;
+}
+
 body {
-    margin: 0;
-  }
+  margin: 0;
+}
 
 html *
 {
-   font-family: Courier New;
-   font-family: Sinkin Sans Regular;
+  font-family: Glametrix;
+}
+
+.user-text {
+  white-space: pre-wrap;
 }
   
-  ::selection {
-    background: #739900; /* WebKit/Blink Browsers */
-    color: #f2f2f2;
-  }
-  ::-moz-selection {
-    background: #739900; /* Gecko Browsers */
-    color: #f2f2f2;
-  }
+::selection {
+  background: #739900; /* WebKit/Blink Browsers */
+  color: #f2f2f2;
+}
+::-moz-selection {
+  background: #739900; /* Gecko Browsers */
+  color: #f2f2f2;
+}

@@ -51,4 +51,12 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
       );
   }
 
+  expandChapter(index: number) {
+    this.project.projectDescriptionChapters[index].expanded = true;
+  }
+
+  collapseChapter(index: number) {
+    this.project.projectDescriptionChapters[index].expanded = false;
+  }
+
 }

@@ -1,19 +1,52 @@
 <h1>Start a new Project</h1>
 
-<p></p>
+<p id="firstP"></p>
 
 <form name="newProjectForm" (ngSubmit)="newProjectF?.form?.valid && submitProject()" #newProjectF="ngForm" >
-  <div class="form-group">
-    <h4 for="caption">Caption:</h4>
-    <input type="text" class="form-control" name="newProjectCaption" [(ngModel)]="model.newProjectCaption" #newProjectCaption="ngModel" required>
+  <div id="main_div">
+    <div class="form-group">
+      <h4 for="caption">Caption:</h4>
+      <input type="text" class="form-control" name="newProjectCaption" [(ngModel)]="model.newProjectCaption" #newProjectCaption="ngModel" required>
+    </div>
+    <div class="form-group">
+      <h4 for="description">Annotation:</h4>
+      <textarea id="description" class="form-control" rows="7" name="newProjectDescription" [(ngModel)]="model.newProjectDescription" #newProjectDescription="ngModel" required></textarea>
+    </div>
   </div>
-  <div class="form-group">
-    <h4 for="description">Description:</h4>
-    <textarea class="form-control" rows="10" name="newProjectDescription" [(ngModel)]="model.newProjectDescription" #newProjectDescription="ngModel" required></textarea>
+  <p class="biggerP"></p>
+  
+  <div id="chapters_div">
+    <div *ngFor="let chapter of chapters; let in=index">
+      <button (click)="removeDescriptionChapter(in)" class="btn btn-link" id="chapterRemoveButton"><span class="glyphicon glyphicon-remove-sign"></span></button>
+      <h4 id="chapterHeader">Description chapter {{ in + 1 }}: </h4>
+      <div class="form-group">
+        <h5 for="chapterTitle">Title: </h5>
+        <input type="text" [(ngModel)]="chapters[in].title" name="chapterTitle{{in}}" class="form-control" #chapterTitle="ngModel" required />
+      </div>
+      <div class="form-group">
+        <h5 for="chapterText">Text: </h5>
+        <textarea rows="7" [(ngModel)]="chapters[in].text" name="chapterText{{in}}" class="form-control" #chapterText="ngModel" required ></textarea>
+      </div>
+    </div>
+    <button (click)="addDescriptionChapter()" [disabled]="!newProjectF?.form?.valid" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Add description chapter</button>
   </div>
-  <p></p>
+  <p class="biggerP"></p>
+
+  <div id="resources_div">
+    <div *ngFor="let resource of resources; let in=index">
+      <button (click)="removeResource(in)" class="btn btn-link" id="resourceRemoveButton"><span class="glyphicon glyphicon-remove-sign"></span></button>
+      <h4 id="resourceHeader">Resource {{ in + 1 }}: </h4>
+      <div class="form-group">
+          <h5 for="resourceLink">Link: </h5>
+          <input type="text" [(ngModel)]="resources[in].link" name="resourceLink{{in}}" class="form-control" #resourceLink="ngModel" required />
+        </div>
+    </div>
+    <button (click)="addResource()" [disabled]="!newProjectF?.form?.valid" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Add resource link</button>
+  </div>
+
+  <p class="biggerP"></p>
   <div class="form-group">
-    <button>Post as '{{ username }}'</button>
+    <button [disabled]="!newProjectF?.form?.valid" class="btn btn-success">Post as '{{ username }}'</button>
   </div>
   <div *ngIf="projectPersistenceError" class="alert alert-danger">An <strong>error</strong> occured while posting your project.</div>
 </form>

@@ -1,13 +1,32 @@
 <div id="main_div">
   <h1>{{ project?.caption }}</h1>
-  <p>
+  <p class="user-text">
     {{ project?.description }}
   </p>
+
+  <p id="largeP" *ngIf="project?.projectDescriptionChapters"></p>
+  <div *ngFor="let chapter of project?.projectDescriptionChapters; let in=index">
+    <h3 id="chapterTitle">
+        <span *ngIf="!project.projectDescriptionChapters[in].expanded" (click)="expandChapter(in)" class="glyphicon glyphicon-arrow-right" id="chapterExpander"></span>
+        <span *ngIf="project.projectDescriptionChapters[in].expanded" (click)="collapseChapter(in)" class="glyphicon glyphicon-arrow-down" id="chapterExpander"></span>
+        {{ chapter.title }}</h3>
+    <p *ngIf="project.projectDescriptionChapters[in].expanded" class="user-text">
+      {{ chapter.text }}
+    </p>
+  </div>
+
+  <div *ngIf="project?.projectResources">
+    <p id="largeP"></p>
+    <h3>Related links: </h3>
+  </div>
+  <div *ngFor="let resource of project?.projectResources">
+    <a href="{{ resource.link }}" target="_blank" id="resLink">{{ resource.link }}</a>
+  </div>
 </div>
 
-<p></p>
+<p id="largeP"></p>
+<p id="largeP"></p>
 <h3>Comments:</h3>
-<p></p>
 
 <app-project-comment *ngFor="let comment of project?.comments" [commentData]="comment">
 </app-project-comment>

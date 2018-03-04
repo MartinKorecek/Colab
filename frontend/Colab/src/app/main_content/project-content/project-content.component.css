@@ -1,6 +1,32 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap3/dist/css/bootstrap.min.css';
 
 #main_div {
     border-bottom-style: solid;
     border-bottom-color: #2f3e00;
+}
+
+#largeP {
+    height: 15px;
+}
+
+#resLink {
+    color: #83ae00;
+    word-break: break-word;
+}
+
+textarea {
+    min-width: 100%;
+    max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+#chapterExpander {
+    margin-right: 7px;
+    font-size: 12px;
+    color: #597700;
+    cursor: pointer;
+    z-index: 0;
 }

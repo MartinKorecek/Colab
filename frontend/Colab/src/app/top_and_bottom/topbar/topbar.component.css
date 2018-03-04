@@ -1,10 +1,11 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap3/dist/css/bootstrap.min.css';
 
 #wrap_div {
 	top: 0;
 	position: sticky;
 	width: 100%;
 	background: #597700;
+	z-index: 10;
 }
 
 #bar {

@@ -1,10 +1,38 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~bootstrap3/dist/css/bootstrap.min.css';
 
 input, textarea {
     width: 100%;
 }
 
-#description {
+#firstP {
+    height: 2px;
+}
+
+.biggerP {
+    height: 50px;
+}
+
+textarea {
     max-width: 100%;
     min-width: 100%;
+}
+
+#main_div, #chapters_div, #resources_div {
+    border-bottom-style: solid;
+    border-bottom-color: #83ae00;
+}
+
+#chapterHeader {
+    margin-left: 6px;
+    display: inline-block;
+}
+
+#chapterRemoveButton, #resourceRemoveButton {
+    float: left;
+    color: #83ae00;
+}
+
+#resourceHeader {
+    margin-left: 6px;
+    display: inline-block;
 }

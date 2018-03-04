@@ -1,10 +1,34 @@
 <div class="media">
-    <div class="media-left media-top">
-      <img src="/assets/images/foto-prototyp.jpg" class="media-object" style="width:80px">
-    </div>
-    <div class="media-body">
-      <h4 class="media-heading">{{ commentData.author.username }}</h4>
-      <p>{{ commentData.text }}</p>
-    </div>
+  <div class="media-left media-top">
+    <img src="/assets/images/foto-prototyp.jpg" class="media-object" style="width:80px">
   </div>
-  <p></p>
+  <div class="media-body">
+    <h4 class="media-heading">{{ commentData.author.username }}</h4>
+    <p id="commentText" >{{ commentData.text }}</p>
+  </div>
+</div>
+
+<div *ngIf="commentData.subcommentsAllowed" id="subcommentDiv">
+  <div *ngFor="let subcomment of commentData?.subcomments">
+    <p id="endGap"></p>
+    <app-project-comment [commentData]="subcomment">
+    </app-project-comment>
+  </div>
+  <button *ngIf="username" (click)="switchCommentingState()" class="btn btn-link" id="commentingControl">
+    <span *ngIf="!expandCommenting" class="glyphicon glyphicon-upload"></span>
+    <span *ngIf="expandCommenting" class="glyphicon glyphicon-download">
+    </span> {{ commentingControlText }}
+  </button>
+  <form *ngIf="expandCommenting" name="subcommentForm" (ngSubmit)="subcommentF?.form?.valid && postSubcomment()" #subcommentF="ngForm">
+      <div class="form-group">
+        <textarea class="form-control" rows="3" name="subcommentText" [(ngModel)]="model.subcommentText" required #subcommentText></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default">Reply as '{{ username }}'</button>
+      </div>
+      <div *ngIf="subcommentPersistenceError" class="alert alert-danger">An <strong>error</strong> occured while posting your comment.</div>
+  </form>
+  
+  <p id="endGap"></p>
+  <p id="endGap"></p>
+</div>
