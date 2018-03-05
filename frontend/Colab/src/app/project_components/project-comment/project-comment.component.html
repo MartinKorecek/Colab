@@ -3,7 +3,7 @@
     <img src="/assets/images/foto-prototyp.jpg" class="media-object" style="width:80px">
   </div>
   <div class="media-body">
-    <h4 class="media-heading">{{ commentData.author.username }}</h4>
+    <h4 class="media-heading">{{ commentData.author.username }}<span *ngIf="commentData.author.username == projectAuthorName"> (OP)</span></h4>
     <p id="commentText" >{{ commentData.text }}</p>
   </div>
 </div>
@@ -11,7 +11,7 @@
 <div *ngIf="commentData.subcommentsAllowed" id="subcommentDiv">
   <div *ngFor="let subcomment of commentData?.subcomments">
     <p id="endGap"></p>
-    <app-project-comment [commentData]="subcomment">
+    <app-project-comment [commentData]="subcomment" [projectAuthorName]="projectAuthorName">
     </app-project-comment>
   </div>
   <button *ngIf="username" (click)="switchCommentingState()" class="btn btn-link" id="commentingControl">

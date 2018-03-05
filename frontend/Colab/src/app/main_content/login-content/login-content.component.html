@@ -31,16 +31,14 @@
     <input type="password" class="form-control" name="signupPassword" [(ngModel)]="model.signupPassword" #signupPassword="ngModel"
       required placeholder="Password" maxlength="40">
   </div>
-  <!--
   <div class="form-group">
     <label for="password">Password again:</label>
-    <input class="form-control" type="password" 
-    required placeholder="Password">
+    <input class="form-control" type="password" name="signupRepeatPassword" [(ngModel)]="model.signupRepeatPassword" #signupRepeatPassword="ngModel"
+    required placeholder="Password" maxlength="40">
   </div>
--->
   <div class="form-group">
-    <button class="btn btn-default">Sign up!</button>
+    <button [disabled]="!signupF?.form?.valid" class="btn btn-default">Sign up!</button>
   </div>
-  <div class="alert alert-danger">REGISTRATION NOT ENABLED YET</div>
-  <div *ngIf="registrationError" class="alert alert-danger">something went wrong</div>
+  <div *ngIf="nonMatchingPasswords" class="alert alert-warning">'Password' and 'Password again' must bear the same value.</div>
+  <div *ngIf="registrationError" class="alert alert-danger">{{ registrationErrorMessage }}</div>
 </form>

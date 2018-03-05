@@ -25,6 +25,7 @@ import { AuthGuard } from './guard/auth-guard.service';
 import { UserService } from './service/user-service';
 import { HttpModule } from '@angular/http';
 import { ProjectCommentService } from './service/project_comment-service';
+import { UnauthGuard } from './guard/unauth-guard.service';
 
 //tento postup jsem převzal z tutoriálu https://github.com/ipassynk/angular-springboot-jwt/blob/master/src/app/app.module.ts
 export function authHttpServiceFactory(http: Http) {
@@ -63,7 +64,8 @@ export function authHttpServiceFactory(http: Http) {
       },
       {
         path: 'login',
-        component: LoginContentComponent
+        component: LoginContentComponent,
+        canActivate: [UnauthGuard]
       },
       {
         path: 'logout',
@@ -92,6 +94,7 @@ export function authHttpServiceFactory(http: Http) {
     UserService,
     AuthenticationService,
     AuthGuard,
+    UnauthGuard,
     Configuration,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],

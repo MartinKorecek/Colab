@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/add/operator/map';
 import { Configuration } from "./configuration";
+import { User } from "../entity/user";
 
-//postup převzat z tutoriálu https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
+//postup loginu převzat z tutoriálu https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
 //hodnoty stringů by rozhodně měly být v konstantě (zatím nechávám antipattern!)
 @Injectable()
 export class AuthenticationService {
@@ -27,14 +28,5 @@ export class AuthenticationService {
             return null;
             });
     }
-
-    register(username: string, password: string) {
-        const body = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&grant_type=password`;
-
-        this.http.post(this.configuration.ServerWithApiUrl + '/user/persistUser', body)
-        .subscribe(
-            data =>  { return this.login(username, password); },
-            err => { return null; }
-        );
-    }
+    
 }

@@ -62,7 +62,7 @@ public class ProjectController {
 	public ProjectData getProjectData(@RequestParam("id") long projectId) {
 		List<Object[]> dataList = projectRepository.getProjectData(projectId);
 		Long pId = (Long)dataList.get(0)[0];
-		ProjectData projectData = new ProjectData(pId, (String)dataList.get(0)[1], (String)dataList.get(0)[2]);
+		ProjectData projectData = new ProjectData(pId, (String)dataList.get(0)[1], (String)dataList.get(0)[2], (String)dataList.get(0)[3]);  //TODO optional: indexes should be in a constant
 		
 		addComments(projectData, dataList, pId);
 		addProjectResourcesAndDescriptionChapters(projectData, projectId);
@@ -79,10 +79,10 @@ public class ProjectController {
 		
 		//zmapuj, co jsou rodicovske komenty a co subkomentare:
 		for (Object[] data : dataList) {
-			String commentAuthorName = (String)data[3];
-			String commentText = (String)data[4];
-			Long commentId = (Long)data[5];
-			Long parentId = (Long)data[6];
+			String commentAuthorName = (String)data[4];
+			String commentText = (String)data[5];
+			Long commentId = (Long)data[6];
+			Long parentId = (Long)data[7];
 			if (commentAuthorName == null || commentText == null || commentId == null)
 				continue;
 			
@@ -186,16 +186,18 @@ public class ProjectController {
 		private long id;
 		private String caption;
 		private String description;
+		private UserData author;
 		private List<ProjectCommentData> comments;
 		private List<ProjectDescriptionChapterData> projectDescriptionChapters;
 		private List<ProjectResourceData> projectResources;
 		
-		public ProjectData(long id, String caption, String description) {
+		public ProjectData(long id, String caption, String description, String authorUsername) {
 			this.id = id;
 			this.caption = caption;
 			this.description = description;
 			this.projectDescriptionChapters = new ArrayList<>();
 			this.projectResources = new ArrayList<>();
+			this.author = new UserData(authorUsername);
 		}
 		
 		public void addChapter(String title, String text) {
@@ -225,6 +227,14 @@ public class ProjectController {
 		}
 		public void setDescription(String description) {
 			this.description = description;
+		}
+
+		public UserData getAuthor() {
+			return author;
+		}
+
+		public void setAuthor(UserData author) {
+			this.author = author;
 		}
 
 		public List<ProjectCommentData> getComments() {
@@ -257,15 +267,15 @@ public class ProjectController {
 		
 		private long id;
 		private ProjectData project;
-		private ProjectCommentAuthor author;
+		private UserData author;
 		private String text;
 		private ProjectCommentData parentComment;
 		private List<ProjectCommentData> subcomments;
 		private boolean subcommentsAllowed;
 		
 		public ProjectCommentData(String authorName, String text, long id, long projectId, boolean subcommentsAllowed, Long parentId) {
-			setAuthor(new ProjectCommentAuthor(authorName));
-			setProject(new ProjectData(projectId, null, null));
+			setAuthor(new UserData(authorName));
+			setProject(new ProjectData(projectId, null, null, null));
 			this.text = text;
 			this.id = id;
 			this.subcommentsAllowed = subcommentsAllowed;
@@ -290,11 +300,11 @@ public class ProjectController {
 			this.project = project;
 		}
 
-		public ProjectCommentAuthor getAuthor() {
+		public UserData getAuthor() {
 			return author;
 		}
 
-		public void setAuthor(ProjectCommentAuthor author) {
+		public void setAuthor(UserData author) {
 			this.author = author;
 		}
 
@@ -378,11 +388,11 @@ public class ProjectController {
 		
 	}
 	
-	public class ProjectCommentAuthor {
+	public class UserData {
 		
 		private String username;
 		
-		public ProjectCommentAuthor(String username) {
+		public UserData(String username) {
 			this.username = username;
 		}
 

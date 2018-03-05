@@ -10,6 +10,7 @@ import { ProjectCommentService } from '../../service/project_comment-service';
 })
 export class ProjectCommentComponent implements OnInit {
   @Input() commentData: ProjectComment;
+  @Input() projectAuthorName: string;
 
   private model: any = {};
   private username: string;

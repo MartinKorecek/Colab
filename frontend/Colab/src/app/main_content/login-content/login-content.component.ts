@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../service/authentication-service';
 import { UserService } from '../../service/user-service';
 import { Observable } from 'rxjs/Observable';
+import { User } from '../../entity/user';
 
 @Component({
   selector: 'app-login-content',
@@ -13,7 +14,9 @@ export class LoginContentComponent implements OnInit {
   model: any = {};
   loading = false;
   loginError = false;
+  nonMatchingPasswords = false;
   registrationError = false;
+  registrationErrorMessage: string = "ERROR";
   redirectUrl: string;
 
   constructor(private router: Router,
@@ -50,8 +53,55 @@ export class LoginContentComponent implements OnInit {
       );
   }
 
+  /*
+  * HUGE antipattern! password should be encoded (as in authentication-service.login, and the request should be posted AT LEAST using https protocol)
+  * Only doing it this way for bigger simplicity (not a project based on security afer all)
+  * DEFINITELY change this for production
+  */
   signUp() {
-      this.authenticationService.register(this.model.loginUsername, this.model.loginPassword)   //TODO -samozřejmě je třeba to dodělat
+    let username = this.model.signupUsername;
+    let password = this.model.signupPassword;
+
+    if (password != this.model.signupRepeatPassword) {
+      this.nonMatchingPasswords = true;
+      return;
+    }
+
+    //attempt to register:
+    this.userService.register(new User(username, password))
+      .subscribe(
+        a => this.authenticateAfterRegistration(username, password),
+        err => {
+          this.registrationError = true;
+          this.registrationErrorMessage = 'Registration unsuccessful. Entered username might already exist';
+          //TODO logging (optional)
+          console.log(err);
+          return;
+        }
+      );
+  }
+
+  authenticateAfterRegistration(username: string, password: string) {
+    this.authenticationService.login(username, password)
+        .subscribe(
+        result => {
+          this.loading = false;
+           if (result) {
+            this.userService.login(result, username);
+            this.registrationError = false;
+            this.navigateAfterSuccess();
+          } else {
+            this.registrationError = true;
+            this.registrationErrorMessage = 'Registration was successfull but we are unable to generate your access token. Please try logging in with your new credentials in the form above';
+            this.loading = false;
+          }
+        },
+        error => {
+          this.registrationError = true;
+          this.registrationErrorMessage = 'Registration was successfull but we are unable to generate your access token. Please try logging in with your new credentials in the form above';
+          this.loading = false;
+        }
+      );
   }
 
   private navigateAfterSuccess() {

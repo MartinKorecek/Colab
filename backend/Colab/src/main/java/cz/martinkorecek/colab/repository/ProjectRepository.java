@@ -13,7 +13,7 @@ import cz.martinkorecek.colab.entity.Project;
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 	
 	public static final String GET_TIMELINE_PROJECT_CAPTIONS_QUERY = "SELECT p.id, p.caption FROM Project p ORDER BY p.creationDate DESC";
-	public static final String GET_PROJECT_DATA_QUERY = "SELECT p.id, p.caption, p.description, commenter.username, comment.text, comment.id, comment.parentComment.id FROM Project p "
+	public static final String GET_PROJECT_DATA_QUERY = "SELECT p.id, p.caption, p.description, p.author.username, commenter.username, comment.text, comment.id, comment.parentComment.id FROM Project p "
 													+ "left join p.projectComments comment "
 													+ "left join comment.author commenter "
 													+ "WHERE p.id=:id";

@@ -13,7 +13,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	
 	public static final String INSERT_USER_QUERY = "INSERT INTO user "
 										+ "(username, password_hash) "
-										+ "VALUES :username, :passwordHash";
+										+ "VALUES (:username, :passwordHash)";
 
 	public User findByUsername(String username);   //spring boot je opravdu šikovná věc
 	

@@ -25,9 +25,9 @@ public class ProjectCommentController {
 	@Autowired
 	private ProjectCommentRepository projectCommentRepository;
 
+	@RequestMapping(value = "/persistComment", method = RequestMethod.POST)
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Throwable.class)
 	@PreAuthorize("hasAuthority('STANDARD_USER') and #projectComment.author.getUsername() == principal")
-	@RequestMapping(value = "/persistComment", method = RequestMethod.POST)
 	public ResponseEntity<String> add(@RequestBody ProjectComment projectComment) {
 		if (projectCommentService.isValid(projectComment)) {
 			if (projectComment.getParentComment() == null || projectComment.getParentComment().getId() == null) {
