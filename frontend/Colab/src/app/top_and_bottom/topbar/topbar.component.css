@@ -34,7 +34,8 @@ img:hover, #plus:hover {
 #plus {
 	color: #b3b3b3;
 	float: left;
-	padding-top: 13px;
+	padding-top: 12px;
+	font-size: .7em;
 	height: 100%;
 }
 
