@@ -35,10 +35,11 @@ ALTER TABLE project_comment ADD CONSTRAINT FK_PROJECT_COMMENT_PARENT_COMMENT_ID_
 ALTER TABLE project_comment ADD CONSTRAINT FK_PROJECT_COMMENT_PROJECT_ID_PROJECT_ID_idx FOREIGN KEY (project_id) REFERENCES project(id) ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS project_description_chapter (
-	id           INT NOT NULL AUTO_INCREMENT,
-    project_id   INT NOT NULL,
-    title        VARCHAR(45) NOT NULL,
-    text         TEXT NOT NULL,
+	id             INT NOT NULL AUTO_INCREMENT,
+    project_id     INT NOT NULL,
+    title          VARCHAR(45) NOT NULL,
+    text           TEXT NOT NULL,
+    chapter_order  INT,
     PRIMARY KEY (id)
 );
 
@@ -48,6 +49,7 @@ CREATE TABLE IF NOT EXISTS project_resource (
 	id           INT NOT NULL AUTO_INCREMENT,
     project_id   INT NOT NULL,
     link         VARCHAR(2000) NOT NULL,
+    link_order   INT,
     PRIMARY KEY (id)
 );
 

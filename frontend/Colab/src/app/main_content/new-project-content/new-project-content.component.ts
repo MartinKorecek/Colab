@@ -28,6 +28,8 @@ export class NewProjectContentComponent implements OnInit {
   submitProject() {
     let caption = this.model.newProjectCaption;
     let description = this.model.newProjectDescription;
+    this.assignOrderToChapters();
+    this.assignOrderToResources();
     this.projectService.postProject(new Project(null, null, this.username, caption, description, null, this.chapters, this.resources))
     .subscribe(
       data => {
@@ -36,6 +38,18 @@ export class NewProjectContentComponent implements OnInit {
       },
       err => this.projectPersistenceError = true
     );
+  }
+
+  assignOrderToChapters() {
+    for (let i = 0; i < this.chapters.length; i++) {
+      this.chapters[i].order = i;
+    }
+  }
+
+  assignOrderToResources() {
+    for (let i = 0; i < this.resources.length; i++) {
+      this.resources[i].order = i;
+    }
   }
 
   addDescriptionChapter() {

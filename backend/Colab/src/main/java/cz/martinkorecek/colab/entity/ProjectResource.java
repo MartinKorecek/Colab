@@ -17,6 +17,8 @@ public class ProjectResource {
 	
 	private String link;
 	
+	private int order;
+	
 	private Project project;
 
 	
@@ -38,6 +40,14 @@ public class ProjectResource {
 		this.link = link;
 	}
 
+	@Column(name="link_order")
+	public int getOrder() {
+		return order;
+	}
+	public void setOrder(int order) {
+		this.order = order;
+	}
+	
 	@ManyToOne
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	public Project getProject() {
@@ -50,7 +60,7 @@ public class ProjectResource {
 	
 	@Override
 	public String toString() {
-		return "ProjectResource [id=" + id + ", link=" + link + ", project=" + project + "]";
+		return "ProjectResource [id=" + id + ", link=" + link + ", order=" + order + ", project=" + project + "]";
 	}
 
 }

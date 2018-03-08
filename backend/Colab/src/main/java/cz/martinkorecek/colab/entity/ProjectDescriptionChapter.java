@@ -19,6 +19,8 @@ public class ProjectDescriptionChapter {
 	
 	private String text;
 	
+	private int order;
+	
 	private Project project;
 
 	
@@ -48,6 +50,14 @@ public class ProjectDescriptionChapter {
 		this.text = text;
 	}
 
+	@Column(name="chapter_order")
+	public int getOrder() {
+		return order;
+	}
+	public void setOrder(int order) {
+		this.order = order;
+	}
+	
 	@ManyToOne
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	public Project getProject() {
@@ -60,8 +70,8 @@ public class ProjectDescriptionChapter {
 	
 	@Override
 	public String toString() {
-		return "ProjectDescriptionChapter [id=" + id + ", title=" + title + ", text=" + text + ", project=" + project
-				+ "]";
+		return "ProjectDescriptionChapter [id=" + id + ", title=" + title + ", text=" + text + ", order=" + order
+				+ ", project=" + project + "]";
 	}
 	
 }

@@ -19,9 +19,10 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 													+ "WHERE p.id=:id";
 	public static final String GET_PROJECT_DESCRIPTION_CHAPTERS = "SELECT pdc.title, pdc.text FROM ProjectDescriptionChapter pdc "
 														+ "WHERE pdc.project.id=:projectId "
-														+ "ORDER BY pdc.id";
+														+ "ORDER BY pdc.order";
 	public static final String GET_PROJECT_RESOURCES = "SELECT pr.link FROM ProjectResource pr "
-												+ "WHERE pr.project.id=:projectId";
+												+ "WHERE pr.project.id=:projectId "
+												+ "ORDER BY pr.order";
 	
 	@Query(GET_TIMELINE_PROJECT_CAPTIONS_QUERY)
 	public List<Object[]> getTimelineProjectCaptions();
