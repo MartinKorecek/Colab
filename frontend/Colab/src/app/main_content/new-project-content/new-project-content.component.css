@@ -36,3 +36,8 @@ textarea {
     margin-left: 6px;
     display: inline-block;
 }
+
+#postButton {
+    background-color: #557100;
+    color: white;
+}

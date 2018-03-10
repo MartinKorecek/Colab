@@ -6,10 +6,10 @@
 
   <p id="largeP" *ngIf="project?.projectDescriptionChapters"></p>
   <div *ngFor="let chapter of project?.projectDescriptionChapters; let in=index">
-    <h3 id="chapterTitle">
+    <h2 id="chapterTitle">
         <span *ngIf="!project.projectDescriptionChapters[in].expanded" (click)="expandChapter(in)" class="glyphicon glyphicon-arrow-right" id="chapterExpander"></span>
         <span *ngIf="project.projectDescriptionChapters[in].expanded" (click)="collapseChapter(in)" class="glyphicon glyphicon-arrow-down" id="chapterExpander"></span>
-        {{ chapter.title }}</h3>
+        {{ chapter.title }}</h2>
     <p *ngIf="project.projectDescriptionChapters[in].expanded" class="user-text">
       {{ chapter.text }}
     </p>
@@ -17,7 +17,7 @@
 
   <div *ngIf="project?.projectResources">
     <p id="largeP"></p>
-    <h3>Related links: </h3>
+    <h2>Related links: </h2>
   </div>
   <div *ngFor="let resource of project?.projectResources">
     <a href="{{ resource.link }}" target="_blank" id="resLink">{{ resource.link }}</a>
@@ -28,7 +28,7 @@
 
 <p id="largeP"></p>
 <p id="largeP"></p>
-<h3>Comments:</h3>
+<h2>Comments:</h2>
 
 <app-project-comment *ngFor="let comment of project?.comments" [commentData]="comment" [projectAuthorName]="project?.author.username">
 </app-project-comment>
@@ -40,7 +40,7 @@
       <textarea class="form-control" rows="3" name="commentText" [(ngModel)]="model.commentText" required #commentText></textarea>
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-default">Post as '{{ username }}'</button>
+      <button type="submit" class="btn btn-lg">Post as '{{ username }}'</button>
     </div>
     <div *ngIf="commentPersistenceError" class="alert alert-danger">An <strong>error</strong> occured while posting your comment.</div>
   </form>

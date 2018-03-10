@@ -46,7 +46,7 @@
 
   <p class="biggerP"></p>
   <div class="form-group">
-    <button [disabled]="!newProjectF?.form?.valid" class="btn btn-success">Post as '{{ username }}'</button>
+    <button [disabled]="!newProjectF?.form?.valid" class="btn btn-lg" id="postButton">Post as '{{ username }}'</button>
   </div>
   <div *ngIf="projectPersistenceError" class="alert alert-danger">An <strong>error</strong> occured while posting your project.</div>
 </form>

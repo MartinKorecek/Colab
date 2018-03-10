@@ -25,14 +25,20 @@ img:hover, #plus:hover {
 	-webkit-filter: brightness(120%);
 }
 
-#logo, #foto {
+#logo {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 100%;
+}
+
+#foto {
 	padding-top: 8px;
 	padding-bottom: 7px;
 	height: 100%;
 }
 
 #plus {
-	color: #b3b3b3;
+	color: #c0c0c0;
 	float: left;
 	padding-top: 12px;
 	font-size: .7em;
