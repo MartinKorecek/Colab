@@ -13,6 +13,7 @@
   <div class="form-group">
     <button [disabled]="loading" class="btn btn-default">Log in!</button>
   </div>
+  <div *ngIf="loginConnectionError" class="alert alert-danger"><strong>ERROR</strong> ESTABLISHING DATABASE CONNECTION.</div>
   <div *ngIf="loginError" class="alert alert-danger">
     <strong>Username</strong> or
     <strong>password</strong> is incorrect</div>

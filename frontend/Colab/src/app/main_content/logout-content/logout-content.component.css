@@ -1,24 +1,29 @@
 @import '~bootstrap3/dist/css/bootstrap.min.css';
 
-* {
-    margin: 1%;
- }
 
-div {
-    width: 100%;
+#wrap_div {
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 10%;
+}
+
+#profile_div {
+    margin-top: 20%;
+    margin-bottom: 10%;
 }
 
 img {
-    width: 20vh;
+    width: 40%;
     display: inline-block;
 }
 
 h1 {
     display: inline-block;
+    width: 55%;
     text-align: center;
 }
 
 button {
-    width: 40%;
+    width: 100%;
     margin: 0 auto;
 }

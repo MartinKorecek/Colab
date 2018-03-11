@@ -1,5 +1,7 @@
-<div>
-  <img id="logo" src="/assets/images/foto-prototyp.jpg" />
-  <h1>{{ username }}</h1>
+<div id="wrap_div">
+  <div id="profile_div">
+    <img id="logo" src="/assets/images/male-profile-icon.svg" />
+    <h1>{{ username }}</h1>
+  </div>
+  <button class="btn btn-lg" (click)="logout()">Log out</button>
 </div>
-<button class="btn btn-lg" (click)="logout()">Log out</button>

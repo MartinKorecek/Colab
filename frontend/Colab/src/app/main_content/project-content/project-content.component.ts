@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../service/project-service';
 import { Project } from '../../entity/project';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { UserService } from '../../service/user-service';
 import { ProjectCommentService } from '../../service/project_comment-service';
 import { ProjectComment } from '../../entity/project-comment';
+import { error } from 'util';
 
 @Component({
   selector: 'app-project-content',
@@ -21,7 +22,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   private project: Project;
   private username: string;
 
-  constructor(private projectService: ProjectService, private route: ActivatedRoute
+  constructor(private projectService: ProjectService, private route: ActivatedRoute, private router: Router
     , private userService: UserService, private projectCommentService: ProjectCommentService) {
     this.username = localStorage.getItem('authenticatedUsername');
   }
@@ -31,7 +32,20 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
       this.receivedId = +params['id'];
     });
 
-    this.projectService.getProjectData(this.receivedId).subscribe((p: Project) => this.project = p);
+    if (isNaN(this.receivedId)) {
+      this.router.navigateByUrl("**", {skipLocationChange: true});
+      return;
+    }
+
+    this.projectService.getProjectData(this.receivedId).subscribe(
+      (p: Project) => {
+        this.project = p;
+        if (this.project == null) {
+          this.router.navigateByUrl("**", {skipLocationChange: true});
+        }
+      },
+      error => this.router.navigateByUrl("connectionError", {skipLocationChange: true})
+    );
   }
 
   ngOnDestroy() {

@@ -26,6 +26,8 @@ import { UserService } from './service/user-service';
 import { HttpModule } from '@angular/http';
 import { ProjectCommentService } from './service/project_comment-service';
 import { UnauthGuard } from './guard/unauth-guard.service';
+import { NotFoundComponent } from './error_routes/not-found/not-found.component';
+import { ConnectionErrorComponent } from './error_routes/connection-error/connection-error.component';
 
 //tento postup jsem převzal z tutoriálu https://github.com/ipassynk/angular-springboot-jwt/blob/master/src/app/app.module.ts
 export function authHttpServiceFactory(http: Http) {
@@ -51,6 +53,8 @@ export function authHttpServiceFactory(http: Http) {
     ProjectButtonComponent,
     ProjectCommentComponent,
     NewProjectContentComponent,
+    NotFoundComponent,
+    ConnectionErrorComponent,
   ],
   imports: [
     HttpClientModule,
@@ -83,6 +87,12 @@ export function authHttpServiceFactory(http: Http) {
       },
       {
         path: '', redirectTo: 'timeline', pathMatch: 'full'
+      },
+      {
+        path: 'connectionError', component: ConnectionErrorComponent
+      },
+      {
+        path: '**', component: NotFoundComponent
       }
     ])
   ],

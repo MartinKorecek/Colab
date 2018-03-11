@@ -14,6 +14,7 @@ export class LoginContentComponent implements OnInit {
   model: any = {};
   loading = false;
   loginError = false;
+  loginConnectionError = false;
   nonMatchingPasswords = false;
   registrationError = false;
   registrationErrorMessage: string = "ERROR";
@@ -41,23 +42,27 @@ export class LoginContentComponent implements OnInit {
           if (result) {
             this.userService.login(result, this.model.loginUsername);
             this.loginError = false;
+            this.loginConnectionError = false;
             this.navigateAfterSuccess();
           } else {
             this.loginError = true;
+            this.loginConnectionError = false;
           }
         },
         error => {
-          this.loginError = true;
-          this.loading = false;
+          if (error.status == 0) {
+            this.loginConnectionError = true;
+            this.loginError = false;
+            this.loading = false;
+          } else {
+            this.loginError = true;
+            this.loginConnectionError = false;
+            this.loading = false;
+          }
         }
       );
   }
 
-  /*
-  * HUGE antipattern! password should be encoded (as in authentication-service.login, and the request should be posted AT LEAST using https protocol)
-  * Only doing it this way for bigger simplicity (not a project based on security afer all)
-  * DEFINITELY change this for production
-  */
   signUp() {
     let username = this.model.signupUsername;
     let password = this.model.signupPassword;
@@ -72,10 +77,7 @@ export class LoginContentComponent implements OnInit {
       .subscribe(
         a => this.authenticateAfterRegistration(username, password),
         err => {
-          this.registrationError = true;
-          this.registrationErrorMessage = 'Registration unsuccessful. Entered username might already exist';
-          //TODO logging (optional)
-          console.log(err);
+          this.handleRegistrationError(err, true);
           return;
         }
       );
@@ -97,11 +99,20 @@ export class LoginContentComponent implements OnInit {
           }
         },
         error => {
-          this.registrationError = true;
-          this.registrationErrorMessage = 'Registration was successfull but we are unable to generate your access token. Please try logging in with your new credentials in the form above';
-          this.loading = false;
+          this.handleRegistrationError(error, false);
         }
       );
+  }
+
+  private handleRegistrationError(error: any, registratingError: boolean) {
+    this.registrationError = true;
+    this.loading = false;
+    if (error.status == 0) {
+      this.registrationErrorMessage = 'ERROR ESTABLISHING DATABASE CONNECTION.';
+    } else {
+      this.registrationErrorMessage = registratingError ? 'Registration unsuccessful. Entered username might already exist'
+                                                        : 'Registration was successfull but we are unable to generate your access token. Please try logging in with your new credentials in the form above';
+    }
   }
 
   private navigateAfterSuccess() {

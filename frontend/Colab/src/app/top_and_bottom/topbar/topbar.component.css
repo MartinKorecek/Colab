@@ -14,12 +14,6 @@
 	margin: 0 auto;
 }
 
-#bar::after { 
-   content: " ";
-   display: block;
-   clear: both;
-}
-
 img:hover, #plus:hover {
 	filter: 0;
 	-webkit-filter: brightness(120%);
@@ -29,12 +23,14 @@ img:hover, #plus:hover {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	height: 100%;
+	cursor: pointer;
 }
 
 #foto {
 	padding-top: 8px;
 	padding-bottom: 7px;
 	height: 100%;
+	cursor: pointer;
 }
 
 #plus {
@@ -43,6 +39,7 @@ img:hover, #plus:hover {
 	padding-top: 12px;
 	font-size: .7em;
 	height: 100%;
+	cursor: pointer;
 }
 
 #left_side, #right_side {

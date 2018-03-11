@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Project } from '../../entity/project';
 import { ProjectService } from '../../service/project-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-timeline-content',
@@ -10,10 +11,13 @@ import { ProjectService } from '../../service/project-service';
 export class TimelineContentComponent implements OnInit {
   private projects: Project[];
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService, private router: Router) { }
 
   ngOnInit() {
-    this.projectService.getTimelineProjectCaptions().subscribe((p: Project[]) => this.projects = p);
+    this.projectService.getTimelineProjectCaptions().subscribe(
+      (p: Project[]) => this.projects = p,
+      err => this.router.navigateByUrl("connectionError", {skipLocationChange: true})
+    );
   }
 
 }
