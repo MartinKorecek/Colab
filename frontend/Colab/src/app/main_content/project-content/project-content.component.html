@@ -15,7 +15,7 @@
     </p>
   </div>
 
-  <div *ngIf="project?.projectResources">
+  <div *ngIf="project?.projectResources.length != 0">
     <p id="largeP"></p>
     <h2>Related links: </h2>
   </div>
@@ -28,12 +28,16 @@
 
 <p id="largeP"></p>
 <p id="largeP"></p>
-<h2>Comments:</h2>
+<h2 *ngIf="project?.comments.length != 0 || username">Comments:</h2>
 
 <app-project-comment *ngFor="let comment of project?.comments" [commentData]="comment" [projectAuthorName]="project?.author.username">
 </app-project-comment>
 
-<div *ngIf="username">
+<div *ngIf="newCommentPosted" class="alert alert-warning">
+  Newly posted comments are viewed in <strong>preview mode</strong>. To view them in standard mode and enable posting subcomments, please <strong>refresh</strong> this page.
+</div>
+
+<div *ngIf="username; else loginCommentInfo">
   <form name="commentForm" (ngSubmit)="commentF?.form?.valid && postComment()" #commentF="ngForm">
     <div class="form-group">
       <h4 for="commentText">Write a comment:</h4>
@@ -45,3 +49,7 @@
     <div *ngIf="commentPersistenceError" class="alert alert-danger">An <strong>error</strong> occured while posting your comment.</div>
   </form>
 </div>
+
+<ng-template #loginCommentInfo>
+  <p id="loginCommentP">To post comments, you need to be logged in.</p>
+</ng-template>

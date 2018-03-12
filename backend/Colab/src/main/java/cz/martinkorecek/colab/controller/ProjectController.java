@@ -44,23 +44,36 @@ public class ProjectController {
 	@Autowired
 	private ProjectResourceRepository projectResourceRepository;
 	
+	public static final int TIMELINE_PROJECTS_PER_PAGE_COUNT = 25;
+	
 	/*
-	 * Metoda navrzena tak, aby nebylo treba selectovat vsechny sloupce tabulky 'project'
-	 * viz take ProjectRepository
+	 * Method designed not to select all columns of table 'project'
+	 * see also ProjectRepository
+	 * PROPERTY ORDER SHALL START FROM ZERO
 	 */
 	@RequestMapping(value = "/timeline", method = RequestMethod.GET)
-	public List<TimelineProjectDto> getTimelineProjectContent() {
-		List<Object[]> projectList = projectRepository.getTimelineProjectCaptions();
+	public List<TimelineProjectDto> getTimelineProjectContent(@RequestParam("order") int order) {
+		List<Object[]> projectList = projectRepository.getTimelineProjectCaptions(order * TIMELINE_PROJECTS_PER_PAGE_COUNT);
+		long totalCount = (int) projectRepository.count();
+		
 		List<TimelineProjectDto> timelineProjectContent = new ArrayList<>();
 		for (Object[] p : projectList) {
-			timelineProjectContent.add(new TimelineProjectDto((Long)p[0], (String)p[1]));
+			timelineProjectContent.add(new TimelineProjectDto((Integer)p[0], (String)p[1], totalCount));
 		}
 		return timelineProjectContent;
 	}
 	
+	/*
+	 * Selects all data frontend needs for viewing particular projects
+	 * (by id)
+	 */
 	@RequestMapping(value = "/project", method = RequestMethod.GET)
 	public ProjectData getProjectData(@RequestParam("id") long projectId) {
 		List<Object[]> dataList = projectRepository.getProjectData(projectId);
+		if (dataList == null || dataList.isEmpty()) {
+			return null;
+		}
+		
 		Long pId = (Long)dataList.get(0)[0];
 		ProjectData projectData = new ProjectData(pId, (String)dataList.get(0)[1], (String)dataList.get(0)[2], (String)dataList.get(0)[3]);  //TODO optional: indexes should be in a constant
 		
@@ -71,13 +84,13 @@ public class ProjectController {
 	}
 	
 	/*
-	 * metoda zajišťuje hlavně propojení 'rodičovských' komentářů s jejich potenciálními 'subkomentáři'
+	 * main purpose of this method is to connect 'parent comments to their 'subcomments'
 	 */
 	private void addComments(ProjectData projectData, List<Object[]> dataList, long projectId) {
-		Map<Long, ProjectCommentData> parentCommentMap = new HashMap<>();        //mapa 'první vrstvy' komentářů                  -klíč: id komentáře
-		Map<Long, List<ProjectCommentData>> subcommentMap = new HashMap<>();     //mapa všech subkomentů rodičovských komentářů   -klíč: id parentCommentu
+		Map<Long, ProjectCommentData> parentCommentMap = new HashMap<>();        //map of the first layer of comments (i.e. not subcomments)    -key: comments id
+		Map<Long, List<ProjectCommentData>> subcommentMap = new HashMap<>();     //map of all subcomments                                       -key: id of the 'parent' comment
 		
-		//zmapuj, co jsou rodicovske komenty a co subkomentare:
+		//map, which comments are 'parent' comments and which subcomments (bound to a parent comment):
 		for (Object[] data : dataList) {
 			String commentAuthorName = (String)data[4];
 			String commentText = (String)data[5];
@@ -100,8 +113,8 @@ public class ProjectController {
 			}
 		}
 		
-		//pripoj subkomenty k rodicovskym komentarum:
-		//DA SE DELAT LAMBDOU, ALE MUSEL BYCH ZMENIT TARGET VERZI JAVY.. NENI TO POTREBA
+		//bind subcomments to their parent comments:
+		//CAN BE DONE MORE SHORTLY WITH A LAMBDA EXPRESSION, BUT RAISING THE TARGET JAVA VERSION WOULD BE NEEDED.. THIS WAY WORKS ASWELL
 		for (Map.Entry<Long, List<ProjectCommentData>> entry : subcommentMap.entrySet()) {
 			ProjectCommentData parentData = parentCommentMap.get(entry.getKey());
 			if (parentData == null) continue;
@@ -109,7 +122,7 @@ public class ProjectController {
 			parentData.setSubcomments(entry.getValue());
 		}
 		
-		//premen mapu na list a vloz jej do projektu:
+		//convert map to list and insert it inside the project dto:
 		List<ProjectCommentData> finalList = new ArrayList<>();
 		for (Map.Entry<Long, ProjectCommentData> entry : parentCommentMap.entrySet()) {
 			finalList.add(entry.getValue());
@@ -118,6 +131,9 @@ public class ProjectController {
 		projectData.setComments(finalList);
 	}
 	
+	/*
+	 * adds DescriptionChapterData and Resources into target ProjectData dto
+	 */
 	private void addProjectResourcesAndDescriptionChapters(ProjectData projectData, long projectId) {
 		List<Object[]> chapterDataList = projectRepository.getProjectDescriptionChapters(projectId);
 		List<String> resourceDataList = projectRepository.getProjectResources(projectId);
@@ -136,6 +152,10 @@ public class ProjectController {
 		}
 	}
 	
+	/*
+	 * persist a new project´
+	 * uses submethod persistChaptersAndResources i.e. persistChapters & persistResources
+	 */
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Throwable.class)
 	@PreAuthorize("hasAuthority('STANDARD_USER') and #project.author.getUsername() == principal")
 	@RequestMapping(value = "/persistProject", method = RequestMethod.POST)
@@ -410,10 +430,13 @@ public class ProjectController {
 		
 		private long id;
 		private String caption;
+		private long totalCount;     //binding the total count of project in each projectDto transferred to the frontend for timeline
+									 //not the nicest looking pattern but an OK one
 		
-		public TimelineProjectDto(long id, String caption) {
+		public TimelineProjectDto(long id, String caption, long totalCount) {
 			this.setId(id);
 			this.setCaption(caption);
+			this.setTotalCount(totalCount);
 		}
 
 		public long getId() {
@@ -428,6 +451,13 @@ public class ProjectController {
 		}
 		public void setCaption(String caption) {
 			this.caption = caption;
+		}
+		
+		public long getTotalCount() {
+			return totalCount;
+		}
+		public void setTotalCount(long totalCount) {
+			this.totalCount = totalCount;
 		}
 		
 	}

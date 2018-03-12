@@ -15,8 +15,8 @@ export class ProjectService {
         this.actionUrl = configuration.ServerWithApiUrl + 'project/';
     }
 
-    public getTimelineProjectCaptions(): Observable<Project[]> {
-        return this.http.get<Project[]>(this.actionUrl + 'timeline');
+    public getTimelineProjectCaptions(order: number): Observable<Project[]> {
+        return this.http.get<Project[]>(this.actionUrl + 'timeline?order=' + order);
     }
 
     public getProjectData(id: number): Observable<Project> {

@@ -17,6 +17,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   private model: any = {};
   private receivedId: number;
   private sub: any;
+  private newCommentPosted: boolean = false;
   private commentPersistenceError: boolean = false;
 
   private project: Project;
@@ -60,6 +61,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
           this.commentPersistenceError = false;
           this.project.comments.push(new ProjectComment(this.username, commentText));
           this.model.commentText = '';
+          this.newCommentPosted = true;
         },
         err => this.commentPersistenceError = true
       );

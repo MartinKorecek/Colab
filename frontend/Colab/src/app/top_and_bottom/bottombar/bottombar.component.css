@@ -1,17 +1,5 @@
 #wrap_div {
     width: 100%;
-    background: #597700;
-}
-
-#bar {
-    width: 70%;
     height: 40px;
-	margin: 0 auto;
-}
-
-p {
-    font-size: 20px;
-    padding-top: 12px;
-    max-height: 100%;
-    color: #949494;
+    background: #597700;
 }

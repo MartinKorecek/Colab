@@ -63,7 +63,7 @@ export function authHttpServiceFactory(http: Http) {
     FormsModule,
     RouterModule.forRoot([
       {
-        path: 'timeline',
+        path: 'timeline/:order',
         component: TimelineContentComponent
       },
       {
@@ -86,7 +86,10 @@ export function authHttpServiceFactory(http: Http) {
         canActivate: [AuthGuard]
       },
       {
-        path: '', redirectTo: 'timeline', pathMatch: 'full'
+        path: '', redirectTo: 'timeline/0', pathMatch: 'full'
+      },
+      {
+        path: 'timeline', redirectTo: 'timeline/0', pathMatch: 'full'
       },
       {
         path: 'connectionError', component: ConnectionErrorComponent

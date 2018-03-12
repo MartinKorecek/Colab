@@ -1,6 +1,16 @@
 <h1>Projects</h1>
 
-<p></p>
+<p id="gap"></p>
 
 <app-project-button *ngFor="let project of projects" [project]="project">
 </app-project-button>
+
+<p id="gap"></p>
+<p id="gap"></p>
+
+<p class="infoP" id="countInfo">Showing {{ projects?.length }} of {{ totalCount }} projects</p>
+<div *ngIf="totalCount > projectCountPerPage" id="pagerDiv">
+    <button [disabled]="timelineOrder == 0" (click)="previousPage()" class="btn btn-link pagerButton" id="prevButton">Previous page</button>
+    <p class="infoP" id="orderInfo">Page {{ timelineOrder + 1 }} if {{ maxOrder + 1 }}</p>
+    <button [disabled]="timelineOrder == maxOrder" (click)="nextPage()" class="btn btn-link pagerButton">Next page</button>
+</div>

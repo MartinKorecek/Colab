@@ -13,6 +13,9 @@ export class Project {
     projectDescriptionChapters: ProjectDescriptionChapter[];
     projectResources: ProjectResource[];
 
+    totalCount: number;    //doesn't have a column; only used in timeline.content
+                           //represents the total amount of projects in the db
+
     constructor(id: number, authorId?: number, authorName?: string, caption?: string, description?: string, comments?: ProjectComment[]
     , chapters?: ProjectDescriptionChapter[], resources?: ProjectResource[]) {
         this.id = id;
