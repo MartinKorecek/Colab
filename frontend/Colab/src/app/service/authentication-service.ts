@@ -4,8 +4,8 @@ import 'rxjs/add/operator/map';
 import { Configuration } from "./configuration";
 import { User } from "../entity/user";
 
-//postup loginu převzat z tutoriálu https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
-//hodnoty stringů by rozhodně měly být v konstantě (zatím nechávám antipattern!)
+//this approach to login is taken from tutorial: https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
+//string values would possibly be better in constants, but it's not needed in this case
 @Injectable()
 export class AuthenticationService {
     static AUTH_TOKEN = '/oauth/token';

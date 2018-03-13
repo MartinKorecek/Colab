@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 /*
- * CELA TRIDA V TETO VERZI ZKOPIROVANA Z TUTORIALU https://github.com/nydiarra/springboot-jwt
+ * ALMOST THE WHOLE CLASS COPIED FROM TUTORIAL https://github.com/nydiarra/springboot-jwt
  */
 @Configuration
 @EnableAuthorizationServer

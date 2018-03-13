@@ -8,8 +8,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /*
- * psáno podle tutoriálu https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
- * tato konfigurace pravděpodobně není ideální (z hlediska zabezpečení) a v případě nasazení na produkci by měla být změněna
+ * written according to tutorial: https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
  */
 @Configuration
 public class AdditionalWebConfig {

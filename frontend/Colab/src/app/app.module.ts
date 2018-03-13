@@ -29,11 +29,11 @@ import { UnauthGuard } from './guard/unauth-guard.service';
 import { NotFoundComponent } from './error_routes/not-found/not-found.component';
 import { ConnectionErrorComponent } from './error_routes/connection-error/connection-error.component';
 
-//tento postup jsem převzal z tutoriálu https://github.com/ipassynk/angular-springboot-jwt/blob/master/src/app/app.module.ts
+//this approach to authentication is taken from tutorial: https://github.com/ipassynk/angular-springboot-jwt/blob/master/src/app/app.module.ts
 export function authHttpServiceFactory(http: Http) {
   return new AuthHttp(new AuthConfig({
     headerPrefix: 'Bearer',
-    tokenName: 'access_token',   //spraávně bych měl 'access token dát do konstanty!...
+    tokenName: 'access_token',
     globalHeaders: [{'Content-Type': 'application/json'}],
     noJwtError: false,
     noTokenScheme: true,

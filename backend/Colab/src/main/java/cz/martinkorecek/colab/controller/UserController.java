@@ -25,11 +25,9 @@ public class UserController {
 	@Value("${security.encoding-strength}")
 	private Integer encodingStrength;
 	
-	// takhle to není správně zabezpečeno (pro můj maturitní projekt to snad nevadí, ale na případnou produkci rozhodně potřeba opravit!)
 	@RequestMapping(value = "/persistUser", method = RequestMethod.POST)
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Throwable.class)
 	public ResponseEntity<String> persistUser(@RequestBody User user) {
-		//String passwordHash = new ShaPasswordEncoder(encodingStrength).encodePassword(user.getPasswordHash(), user.getPasswordHash());
 		String passwordHash = new ShaPasswordEncoder(encodingStrength).encodePassword(user.getPasswordHash(), null);
 		userRepository.insertUser(user.getUsername(), passwordHash);
 		return ResponseEntity.status(HttpStatus.CREATED).build();

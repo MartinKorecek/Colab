@@ -14,7 +14,7 @@ import cz.martinkorecek.colab.service.ProjectCommentService;
 import cz.martinkorecek.colab.service.impl.ProjectCommentServiceImpl;
 
 /*
- * V TETO VERZI VETSINA KODU ZKOPIROVANA Z TUTORIALU https://github.com/nydiarra/springboot-jwt
+ * MOST OF THE CODE IN THIS CLASS IS COPIED FROM TUTORIAL https://github.com/nydiarra/springboot-jwt
  */
 @Configuration
 @EnableResourceServer
@@ -24,7 +24,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	private ResourceServerTokenServices tokenServices;
 	
 	@Bean
-	public ProjectCommentService projectCommentService() {   //TODO -optional- replace to a more relevant configuration class
+	public ProjectCommentService projectCommentService() {
 		return new ProjectCommentServiceImpl();
 	}
 	

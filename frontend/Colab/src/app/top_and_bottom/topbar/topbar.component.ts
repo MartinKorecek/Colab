@@ -13,7 +13,7 @@ export class TopbarComponent implements OnInit {
   constructor(private userService: UserService) {
     this.refreshProfileIconValues();
 
-    this.userService.componentMethodCalled$.subscribe(     //aktualizuj tooltip profileIcony podle povelu userService
+    this.userService.componentMethodCalled$.subscribe(     //update tooltip text of the profileIcon according to a signal from userService
       () => this.refreshProfileIconValues()
     );
   }

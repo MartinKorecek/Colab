@@ -32,8 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {  //psáno po
 		authorities.add(new SimpleGrantedAuthority("STANDARD_USER"));
 		
 		UserDetails userDetails = new org.springframework.security.core.userdetails.
-                User(user.getUsername(), user.getPasswordHash(), authorities);    //POZOR; zatím jsem se rozhodl neimplementovat typy autority, proto vkládám 
-																		          //zatím defaultně autoritu 'standard_user'
+                User(user.getUsername(), user.getPasswordHash(), authorities);    //I decided not to implement several authority types, 
+																		          //therefore, only 'standard_user' authority is enabled
 
         return userDetails;
 	}

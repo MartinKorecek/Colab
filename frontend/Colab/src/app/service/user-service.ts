@@ -4,7 +4,7 @@ import { User } from "../entity/user";
 import { Http, Response } from "@angular/http";
 import { Configuration } from "./configuration";
 
-//login a logout metoda podle tutoriálu https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
+//login and logout method done following tutorial: https://medium.com/@juliapassynkova/angular-springboot-jwt-integration-p-1-800a337a4e0
 @Injectable()
 export class UserService {
     accessToken: string;
@@ -19,9 +19,9 @@ export class UserService {
     login(accessToken: string, authenticatedUsername: string) {
         this.authenticatedUsername = authenticatedUsername;
         this.accessToken = accessToken;
-        localStorage.setItem('access_token', accessToken);  //'access_token' by samozřejmě mělo správně být v konstantě
+        localStorage.setItem('access_token', accessToken);
         localStorage.setItem('authenticatedUsername', authenticatedUsername);
-        this.componentMethodCallSource.next();        //dej odebirajicim komponentam vedet, ze se stav prihlaseni zmenil
+        this.componentMethodCallSource.next();        //let 'listening' components know the login state has changed
     }
     
     logout() {
@@ -29,10 +29,10 @@ export class UserService {
         this.authenticatedUsername = null;
         localStorage.removeItem('access_token');
         localStorage.removeItem('authenticatedUsername');
-        this.componentMethodCallSource.next();        //dej odebirajicim komponentam vedet, ze se stav prihlaseni zmenil
+        this.componentMethodCallSource.next();        //let 'listening' components know the login state has changed
     }
 
-    //really bad way to do this! (doing it this way for code simplicity)
+    //unsafe if not using https protocol! (which, in 'production', should be used anyways)
     public register(user: User) {
         return this.http.post(this.configuration.ServerWithApiUrl + '/user/persistUser', user);
     }

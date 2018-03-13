@@ -21,11 +21,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /*
- * CELA TRIDA V TETO VERZI ZKOPIROVANA Z TUTORIALU https://github.com/nydiarra/springboot-jwt
+ * ALMOST THE WHOLE CLASS COPIED FROM TUTORIAL https://github.com/nydiarra/springboot-jwt
  */
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)    //comment protoze jinak bych nemohl po svem (nespravnem) zpusobu insertovat usery
+//@EnableGlobalMethodSecurity(prePostEnabled = true)    //mentioned tutorial advises this annotation, but that would disable new user insertion
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Value("${security.signing-key}")
