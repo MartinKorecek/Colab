@@ -5,6 +5,7 @@ export class ProjectComment {
     id: number;
     text: string;
     author: User;
+    date: string;
     project: Project;
     parentComment: ProjectComment;
     subcomments: ProjectComment[];

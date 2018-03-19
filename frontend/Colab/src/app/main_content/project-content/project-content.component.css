@@ -12,6 +12,8 @@
 #resLink {
     color: #83ae00;
     word-break: break-word;
+    display: inline-block;
+    margin-bottom: 7px;
 }
 
 textarea {
@@ -29,6 +31,11 @@ h1, h2, h3, h4, h5, h6 {
     color: #597700;
     cursor: pointer;
     z-index: 0;
+}
+
+#dateDiv {
+    color: grey;
+    display: inline-block;
 }
 
 #projectAuthorDiv {

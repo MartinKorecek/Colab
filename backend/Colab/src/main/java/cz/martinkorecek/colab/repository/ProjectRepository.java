@@ -12,10 +12,12 @@ import cz.martinkorecek.colab.entity.Project;
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 	
-	public static final String GET_TIMELINE_PROJECT_CAPTIONS_QUERY = "SELECT id, caption FROM project ORDER BY creation_date DESC "
+	public static final String GET_TIMELINE_PROJECT_CAPTIONS_QUERY = "SELECT id, caption, creation_date FROM project ORDER BY creation_date DESC "
 																+ "LIMIT 25 "
 																+ "OFFSET :offset ";
-	public static final String GET_PROJECT_DATA_QUERY = "SELECT p.id, p.caption, p.description, p.author.username, commenter.username, comment.text, comment.id, comment.parentComment.id FROM Project p "
+	public static final String GET_PROJECT_DATA_QUERY = "SELECT p.id, p.caption, p.description, p.author.username, p.creationDate, "
+													+ "commenter.username, comment.text, comment.id, comment.parentComment.id, comment.date "
+													+ "FROM Project p "
 													+ "left join p.projectComments comment "
 													+ "left join comment.author commenter "
 													+ "WHERE p.id=:id "

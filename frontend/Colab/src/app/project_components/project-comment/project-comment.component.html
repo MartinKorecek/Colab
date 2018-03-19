@@ -3,8 +3,9 @@
     <img src="/assets/images/male-profile-icon.svg" class="media-object" style="width:80px">
   </div>
   <div class="media-body">
-    <h4 class="media-heading">{{ commentData.author.username }}<span *ngIf="commentData.author.username == projectAuthorName"> (OP)</span></h4>
+    <h3 class="media-heading">{{ commentData.author.username }}<span *ngIf="commentData.author.username == projectAuthorName"> (OP)</span></h3>
     <p class="user-text" id="commentText">{{ commentData.text }}</p>
+    <p id="dateP">{{ commentData.date }}</p>
   </div>
 </div>
 

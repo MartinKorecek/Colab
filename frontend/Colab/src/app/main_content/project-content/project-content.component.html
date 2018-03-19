@@ -22,9 +22,9 @@
   <div *ngFor="let resource of project?.projectResources">
     <a href="{{ resource.link }}" target="_blank" id="resLink">{{ resource.link }}</a>
   </div>
-
-  <div id="projectAuthorDiv">Author: {{ project?.author.username }}</div>
 </div>
+<div id="dateDiv">{{ project?.creationDate }}</div>
+<div id="projectAuthorDiv">Author: {{ project?.author.username }}</div>
 
 <p id="largeP"></p>
 <p id="largeP"></p>

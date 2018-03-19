@@ -1,5 +1,7 @@
 package cz.martinkorecek.colab.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +47,7 @@ public class ProjectController {
 	private ProjectResourceRepository projectResourceRepository;
 	
 	public static final int TIMELINE_PROJECTS_PER_PAGE_COUNT = 25;
+	public static final DateFormat VIEWED_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 	/*
 	 * Method designed not to select all columns of table 'project'
@@ -58,7 +61,7 @@ public class ProjectController {
 		
 		List<TimelineProjectDto> timelineProjectContent = new ArrayList<>();
 		for (Object[] p : projectList) {
-			timelineProjectContent.add(new TimelineProjectDto((Integer)p[0], (String)p[1], totalCount));
+			timelineProjectContent.add(new TimelineProjectDto((Integer)p[0], (String)p[1], (Date)p[2], totalCount));
 		}
 		return timelineProjectContent;
 	}
@@ -75,7 +78,7 @@ public class ProjectController {
 		}
 		
 		Long pId = (Long)dataList.get(0)[0];
-		ProjectData projectData = new ProjectData(pId, (String)dataList.get(0)[1], (String)dataList.get(0)[2], (String)dataList.get(0)[3]);  //TODO optional: indexes should be in a constant
+		ProjectData projectData = new ProjectData(pId, (String)dataList.get(0)[1], (String)dataList.get(0)[2], (Date)dataList.get(0)[4], (String)dataList.get(0)[3]);  //TODO optional: indexes could be in constants
 		
 		addComments(projectData, dataList, pId);
 		addProjectResourcesAndDescriptionChapters(projectData, projectId);
@@ -92,23 +95,24 @@ public class ProjectController {
 		
 		//map, which comments are 'parent' comments and which subcomments (bound to a parent comment):
 		for (Object[] data : dataList) {
-			String commentAuthorName = (String)data[4];
-			String commentText = (String)data[5];
-			Long commentId = (Long)data[6];
-			Long parentId = (Long)data[7];
+			String commentAuthorName = (String)data[5];
+			String commentText = (String)data[6];
+			Long commentId = (Long)data[7];
+			Long parentId = (Long)data[8];
+			Date commentDate = (Date)data[9];
 			if (commentAuthorName == null || commentText == null || commentId == null)
 				continue;
 			
 			if (parentId == null) {
-				parentCommentMap.put(commentId, new ProjectCommentData(commentAuthorName, commentText, commentId, projectId, true, null));
+				parentCommentMap.put(commentId, new ProjectCommentData(commentAuthorName, commentText, commentDate, commentId, projectId, true, null));
 			} else {
 				List<ProjectCommentData> subList = subcommentMap.get(parentId);
 				if (subList == null) {
 					List<ProjectCommentData> sl = new ArrayList<>();
-					sl.add(new ProjectCommentData(commentAuthorName, commentText, commentId, projectId, false, parentId));
+					sl.add(new ProjectCommentData(commentAuthorName, commentText, commentDate, commentId, projectId, false, parentId));
 					subcommentMap.put(parentId, sl);
 				} else {
-					subList.add(new ProjectCommentData(commentAuthorName, commentText, commentId, projectId, false, parentId));
+					subList.add(new ProjectCommentData(commentAuthorName, commentText, commentDate, commentId, projectId, false, parentId));
 				}
 			}
 		}
@@ -206,18 +210,22 @@ public class ProjectController {
 		private long id;
 		private String caption;
 		private String description;
+		private String creationDate;
 		private UserData author;
 		private List<ProjectCommentData> comments;
 		private List<ProjectDescriptionChapterData> projectDescriptionChapters;
 		private List<ProjectResourceData> projectResources;
 		
-		public ProjectData(long id, String caption, String description, String authorUsername) {
+		public ProjectData(long id, String caption, String description, Date creationDate, String authorUsername) {
 			this.id = id;
 			this.caption = caption;
 			this.description = description;
 			this.projectDescriptionChapters = new ArrayList<>();
 			this.projectResources = new ArrayList<>();
 			this.author = new UserData(authorUsername);
+			if (creationDate != null) {
+				this.creationDate = VIEWED_DATE_FORMAT.format(creationDate);
+			}
 		}
 		
 		public void addChapter(String title, String text) {
@@ -249,10 +257,16 @@ public class ProjectController {
 			this.description = description;
 		}
 
+		public String getCreationDate() {
+			return creationDate;
+		}
+		public void setCreationDate(String creationDate) {
+			this.creationDate = creationDate;
+		}
+
 		public UserData getAuthor() {
 			return author;
 		}
-
 		public void setAuthor(UserData author) {
 			this.author = author;
 		}
@@ -260,7 +274,6 @@ public class ProjectController {
 		public List<ProjectCommentData> getComments() {
 			return comments;
 		}
-
 		public void setComments(List<ProjectCommentData> comments) {
 			this.comments = comments;
 		}
@@ -268,7 +281,6 @@ public class ProjectController {
 		public List<ProjectDescriptionChapterData> getProjectDescriptionChapters() {
 			return projectDescriptionChapters;
 		}
-
 		public void setProjectDescriptionChapters(List<ProjectDescriptionChapterData> projectDescriptionChapters) {
 			this.projectDescriptionChapters = projectDescriptionChapters;
 		}
@@ -276,7 +288,6 @@ public class ProjectController {
 		public List<ProjectResourceData> getProjectResources() {
 			return projectResources;
 		}
-
 		public void setProjectResources(List<ProjectResourceData> projectResources) {
 			this.projectResources = projectResources;
 		}
@@ -289,18 +300,22 @@ public class ProjectController {
 		private ProjectData project;
 		private UserData author;
 		private String text;
+		private String date;
 		private ProjectCommentData parentComment;
 		private List<ProjectCommentData> subcomments;
 		private boolean subcommentsAllowed;
 		
-		public ProjectCommentData(String authorName, String text, long id, long projectId, boolean subcommentsAllowed, Long parentId) {
+		public ProjectCommentData(String authorName, String text, Date date, long id, long projectId, boolean subcommentsAllowed, Long parentId) {
 			setAuthor(new UserData(authorName));
-			setProject(new ProjectData(projectId, null, null, null));
+			setProject(new ProjectData(projectId, null, null, null, null));
 			this.text = text;
 			this.id = id;
 			this.subcommentsAllowed = subcommentsAllowed;
+			if (date != null) {
+				this.date = VIEWED_DATE_FORMAT.format(date);
+			}
 			if (parentId != null) {
-				this.parentComment = new ProjectCommentData(null, null, parentId, 0, false, null);
+				this.parentComment = new ProjectCommentData(null, null, null, parentId, 0, false, null);
 			}
 		}
 
@@ -334,6 +349,14 @@ public class ProjectController {
 		
 		public void setText(String text) {
 			this.text = text;
+		}
+
+		public String getDate() {
+			return date;
+		}
+
+		public void setDate(String date) {
+			this.date = date;
 		}
 
 		public ProjectCommentData getParentComment() {
@@ -430,13 +453,17 @@ public class ProjectController {
 		
 		private long id;
 		private String caption;
+		private String creationDate;
 		private long totalCount;     //binding the total count of project in each projectDto transferred to the frontend for timeline
 									 //not the nicest looking pattern but an OK one
 		
-		public TimelineProjectDto(long id, String caption, long totalCount) {
+		public TimelineProjectDto(long id, String caption, Date creationDate, long totalCount) {
 			this.setId(id);
 			this.setCaption(caption);
 			this.setTotalCount(totalCount);
+			if (creationDate != null) {
+				this.setCreationDate(VIEWED_DATE_FORMAT.format(creationDate));
+			}
 		}
 
 		public long getId() {
@@ -453,6 +480,13 @@ public class ProjectController {
 			this.caption = caption;
 		}
 		
+		public String getCreationDate() {
+			return creationDate;
+		}
+		public void setCreationDate(String creationDate) {
+			this.creationDate = creationDate;
+		}
+
 		public long getTotalCount() {
 			return totalCount;
 		}

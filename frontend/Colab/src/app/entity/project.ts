@@ -8,7 +8,7 @@ export class Project {
     author: User;
     caption: string;
     description: string;
-    creationDate: Date;
+    creationDate: string;
     comments: ProjectComment[];
     projectDescriptionChapters: ProjectDescriptionChapter[];
     projectResources: ProjectResource[];
